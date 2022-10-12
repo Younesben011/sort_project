@@ -3,32 +3,51 @@ from PyQt5.QtWidgets import *
 import json
 
 
+class cases(QGroupBox):
+    def __init__(self):
+        super().__init__()
+        self.setTitle("cases")
+
+        BCase = QRadioButton("best case")
+        BCase.setChecked(True)
+        ACase = QRadioButton("avrege case")
+        WCase = QRadioButton("worse case")
+
+        hbosLayout = QHBoxLayout()
+        hbosLayout.setGeometry(self, 100, 100, 0, 0)
+        hbosLayout.addWidget(BCase)
+        hbosLayout.addWidget(ACase)
+        hbosLayout.addWidget(WCase)
+
+        self.setLayout(hbosLayout)
+        self.setDisabled(True)
+
+
 class checkBoxes(QCheckBox):
-    def __init__(self, name, btn):
+    def __init__(self, name, cases):
         super().__init__()
         # check = QCheckBox(name)
         # check.stateChanged.connect(lambda: self.show(self))
         self.setText(name)
-        self.stateChanged.connect(lambda: self.show(btn))
+        self.stateChanged.connect(lambda: self.show(cases))
 
-    def show(self, btn):
+    def show(self, cases):
+        print("Ss")
         state = self.checkState()
         if (state == 2):
-            btn.setVisible(True)
+            cases.setDisabled(False)
         else:
-            btn.setVisible(False)
+            cases.setDisabled(True)
 
 
 class all_sorts(QVBoxLayout):
     def __init__(self, names):
         super().__init__()
         for name in names:
-            btn = QPushButton("hi "+name)
-            check_sort = checkBoxes(name, btn)
-            btn.setVisible(False)
-
+            sort_cases = cases()
+            check_sort = checkBoxes(name, sort_cases)
             self.addWidget(check_sort)
-            self.addWidget(btn)
+            self.addWidget(sort_cases)
 
 
 class sort_app(QWidget):
@@ -39,7 +58,7 @@ class sort_app(QWidget):
         # self.setFixedHeight(500)
         self.setStyleSheet("background:#c5e3cf")
         layout = all_sorts(["bubble sort", "quick sort",
-                           "insertion sort", "merge_sort"])
+                            "insertion sort", "merge_sort"])
         self.setLayout(layout)
 
 
